@@ -1,0 +1,51 @@
+{
+  "name": "dsa-algorithms",
+  "version": "1.0.0",
+  "description": "Data Structures and Algorithms practice problems and solutions in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint arrays/*.js",
+    "lint:fix": "eslint arrays/*.js --fix",
+    "format": "prettier --write arrays/*.js",
+    "format:check": "prettier --check arrays/*.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "arrays/*.js",
+      "!arrays/*.test.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "keywords": [
+    "data-structures",
+    "algorithms",
+    "javascript",
+    "binary-search",
+    "sorting",
+    "searching",
+    "dsa",
+    "programming"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/DSA.git"
+  }
+} 

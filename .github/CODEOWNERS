@@ -1,0 +1,18 @@
+# CODEOWNERS file for automatic reviewer assignment
+
+# Global owners - these users will be requested for review on every PR
+* @your-github-username
+
+# Arrays algorithms
+arrays/ @your-github-username
+
+# Specific algorithm files that require expert review
+arrays/binarySearch.js @your-github-username
+arrays/*.test.js @your-github-username
+
+# GitHub workflows and CI/CD
+.github/ @your-github-username
+
+# Documentation
+README.md @your-github-username
+*.md @your-github-username 
