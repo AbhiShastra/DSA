@@ -21,21 +21,21 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: |
-          npm init -y
-          npm install --save-dev jest eslint prettier
+        run: npm install
 
       - name: Lint code
         run: |
-          npx eslint arrays/*.js --fix-dry-run || echo "Linting completed with warnings"
+          npm run lint || echo "Linting completed with warnings"
 
       - name: Check code formatting
         run: |
-          npx prettier --check arrays/*.js || echo "Formatting check completed"
+          npm run format:check || echo "Formatting check completed"
 
       - name: Run tests
-        run: |
-          npm test || echo "Tests completed"
+        run: npm test
+
+      - name: Run test coverage
+        run: npm run test:coverage
 
       - name: Check for TODO comments
         run: |
@@ -74,9 +74,7 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        run: |
-          npm init -y
-          npm install --save-dev jest
+        run: npm install
 
       - name: Run performance tests
         run: |
