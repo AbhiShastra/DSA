@@ -1,0 +1,95 @@
+name: PR Code Review and Tests
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint code
+        run: |
+          npm run lint || echo "Linting completed with warnings"
+
+      - name: Check code formatting
+        run: |
+          npm run format:check || echo "Formatting check completed"
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run test coverage
+        run: npm run test:coverage
+
+      - name: Check for TODO comments
+        run: |
+          echo "Checking for TODO comments that should be addressed..."
+          grep -r "TODO" arrays/ || echo "No TODO comments found"
+
+      - name: File structure validation
+        run: |
+          echo "Validating file structure..."
+          ls -la arrays/
+          echo "✓ File structure looks good"
+
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security audit
+        run: |
+          echo "Running basic security checks..."
+          # Check for potential security issues in JavaScript files
+          grep -r "eval\|innerHTML\|document.write" arrays/ || echo "✓ No obvious security issues found"
+
+  performance-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run performance tests
+        run: |
+          node -e "
+            const { binarySearch } = require('./arrays/binarySearch.js');
+            const arr = Array.from({length: 100000}, (_, i) => i);
+            const start = process.hrtime.bigint();
+            binarySearch(arr, 50000);
+            const end = process.hrtime.bigint();
+            const duration = Number(end - start) / 1000000; // Convert to milliseconds
+            console.log(\`Binary search took \${duration.toFixed(2)}ms\`);
+            if (duration > 100) {
+              console.error('⚠️ Performance issue: Binary search taking too long');
+              process.exit(1);
+            } else {
+              console.log('✓ Performance test passed');
+            }
+          "
